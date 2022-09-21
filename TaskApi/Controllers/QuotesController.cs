@@ -1,117 +1,145 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using System.Web;
+using System.Web.Mvc;
+using TaskApi.Models;
 
 namespace TaskApi.Controllers
 {
-    using Models;
-    using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
-    using System.Web.Http.Description;
-
-    public class QuotesController : ApiController
+    public class QuotesController : Controller
     {
-        private readonly TaskContext db = new TaskContext();
+        private TaskContext db = new TaskContext();
 
-        // GET api/quotes
-        public IQueryable<Quote> Get()
+        // GET: Quotes
+        public ActionResult Index()
         {
-            return db.Quotes;
+            var quotes = new List<QuoteViewModel>();
+            foreach (var q in db.Quotes)
+            {
+                quotes.Add(new QuoteViewModel(q));
+            }
+
+            return View(quotes);
         }
 
-        // GET api/quotes/5
-        public IHttpActionResult Get(string id)
+        // GET: Quotes/Details/5
+        public ActionResult Details(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Quote quote = db.Quotes.Find(id);
             if (quote == null)
             {
-                return NotFound();
+                return HttpNotFound();
             }
-
-            return Ok(quote);
+            return View(quote);
         }
 
-        // POST api/quotes
-        [ResponseType(typeof(Quote))]
-        public IHttpActionResult Post([FromBody] Quote quote)
+        // GET: Quotes/Create
+        public ActionResult Create()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            ViewBag.ContactId = new SelectList(db.Personnels, "Id", "Role");
+            ViewBag.QuoteTypeId = new SelectList(db.QuoteTypes, "Id", "Name");
+            ViewBag.TaskTypeId = new SelectList(db.TaskTypes, "Id", "Name");
+            return View();
+        }
 
-            db.Quotes.Add(quote);
-
-            try
+        // POST: Quotes/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id,QuoteTypeId,TaskTypeId,TaskDescription,ContactId,DueDate")] Quote quote)
+        {
+            if (ModelState.IsValid)
             {
+                db.Quotes.Add(quote);
                 db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (db.Quotes.Find(quote.Id) != null)
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToAction("Index");
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = quote.Id }, quote);
+            ViewBag.ContactId = new SelectList(db.Personnels, "Id", "Role", quote.ContactId);
+            ViewBag.QuoteTypeId = new SelectList(db.QuoteTypes, "Id", "Name", quote.QuoteTypeId);
+            ViewBag.TaskTypeId = new SelectList(db.TaskTypes, "Id", "Name", quote.TaskTypeId);
+            return View(quote);
         }
 
-        // PUT api/quotes/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult Put(string id, [FromBody] Quote quote)
+        // GET: Quotes/Edit/5
+        public ActionResult Edit(string id)
         {
-            if (!ModelState.IsValid)
+            if (id == null)
             {
-                return BadRequest(ModelState);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            if (id != quote.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(quote).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (db.Quotes.Find(quote.Id) == null)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // DELETE api/quotes/5
-        public IHttpActionResult Delete(string id)
-        {
             Quote quote = db.Quotes.Find(id);
             if (quote == null)
             {
-                return NotFound();
+                return HttpNotFound();
             }
+            ViewBag.ContactId = new SelectList(db.Personnels, "Id", "Role", quote.ContactId);
+            ViewBag.QuoteTypeId = new SelectList(db.QuoteTypes, "Id", "Name", quote.QuoteTypeId);
+            ViewBag.TaskTypeId = new SelectList(db.TaskTypes, "Id", "Name", quote.TaskTypeId);
+            return View(quote);
+        }
 
+        // POST: Quotes/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,QuoteTypeId,TaskTypeId,TaskDescription,ContactId,DueDate")] Quote quote)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(quote).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.ContactId = new SelectList(db.Personnels, "Id", "Role", quote.ContactId);
+            ViewBag.QuoteTypeId = new SelectList(db.QuoteTypes, "Id", "Name", quote.QuoteTypeId);
+            ViewBag.TaskTypeId = new SelectList(db.TaskTypes, "Id", "Name", quote.TaskTypeId);
+            return View(quote);
+        }
+
+        // GET: Quotes/Delete/5
+        public ActionResult Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Quote quote = db.Quotes.Find(id);
+            if (quote == null)
+            {
+                return HttpNotFound();
+            }
+            return View(quote);
+        }
+
+        // POST: Quotes/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string id)
+        {
+            Quote quote = db.Quotes.Find(id);
             db.Quotes.Remove(quote);
             db.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
-            return Ok(quote);
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
