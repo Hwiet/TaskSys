@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 
@@ -13,6 +14,8 @@ namespace TaskApi.Models
         private readonly TaskContext db = new TaskContext();
 
         [Required]
+        [StringValidator(MinLength = 5, MaxLength = 5)]
+        [RegexStringValidator(@"\d{5}")]
         public string Id { get; set; }
 
         [Required]
