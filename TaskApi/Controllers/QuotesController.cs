@@ -17,13 +17,7 @@ namespace TaskApi.Controllers
         // GET: Quotes
         public ActionResult Index()
         {
-            var quotes = new List<QuoteViewModel>();
-            foreach (var q in db.Quotes)
-            {
-                quotes.Add(new QuoteViewModel(q));
-            }
-
-            return View(quotes);
+            return View(db.Quotes.ToList());
         }
 
         // GET: Quotes/Details/5
@@ -131,6 +125,11 @@ namespace TaskApi.Controllers
             db.Quotes.Remove(quote);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public JsonResult IdExists(string id)
+        {
+            return Json(!db.Quotes.Any(q => q.Id == id), JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

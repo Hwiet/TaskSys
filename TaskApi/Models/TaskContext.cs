@@ -25,7 +25,7 @@ namespace TaskApi.Models
 
             modelBuilder.Entity<Personnel>()
                 .HasMany(e => e.Quotes)
-                .WithRequired(e => e.Personnel)
+                .WithRequired(e => e.Contact)
                 .HasForeignKey(e => e.ContactId)
                 .WillCascadeOnDelete(false);
 

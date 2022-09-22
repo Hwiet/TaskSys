@@ -39,6 +39,11 @@ namespace TaskApi.ApiControllers
         [ResponseType(typeof(Quote))]
         public IHttpActionResult Post([FromBody] Quote quote)
         {
+            if (db.Quotes.Any(q => q.Id == quote.Id))
+            {
+                return BadRequest("A quote with this ID exists");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

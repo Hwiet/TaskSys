@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TaskApi.Models
 {
@@ -16,33 +17,39 @@ namespace TaskApi.Models
         [Required]
         [StringValidator(MinLength = 5, MaxLength = 5)]
         [RegexStringValidator(@"\d{5}")]
+        [DisplayName("Quote ID")]
         public string Id { get; set; }
 
         [Required]
         [DisplayName("Quote Type")]
-        public string QuoteType { get; set; }
+        public int? QuoteTypeId
+        {
+            get { return QuoteType?.Id; }
+            set { QuoteType = db.QuoteTypes.Find(value); }
+        }
 
         [Required]
         [DisplayName("Task Type")]
-        public string TaskType { get; set; }
+        public int? TaskTypeId
+        {
+            get { return TaskType?.Id; }
+            set { TaskType = db.TaskTypes.Find(value); }
+        }
 
         [DisplayName("Description")]
         public string TaskDescription { get; set; }
 
-        public string Contact { get; set; }
+        public int? ContactId {
+            get { return Contact?.Id; }
+            set { Contact = db.Personnels.Find(value); }
+        }
 
         [Column(TypeName = "date")]
         [DisplayName("Due Date")]
         public DateTime? DueDate { get; set; }
 
-        public QuoteViewModel(Quote quote)
-        {
-            Id = quote.Id;
-            QuoteType = quote.QuoteType.Name;
-            TaskType = quote.TaskType.Name;
-            TaskDescription = quote.TaskDescription;
-            Contact = quote.Personnel.Role;
-            DueDate = quote.DueDate;
-        }
+        public Personnel Contact { get; set; }
+        public QuoteType QuoteType { get; set; }
+        public TaskType TaskType { get; set; }
     }
 }

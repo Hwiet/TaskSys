@@ -7,6 +7,7 @@ namespace TaskApi.Models
     using System.Data.Entity.Spatial;
 
     [Table("Personnel")]
+    [DisplayColumn("Role")]
     public partial class Personnel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
