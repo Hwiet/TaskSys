@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using TaskApi.Filters;
 
 namespace TaskApi.ApiControllers
 {
@@ -11,11 +12,18 @@ namespace TaskApi.ApiControllers
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     using System.Web.Http.Description;
+    using TaskApi.Lib.Services;
 
     [Authorize]
     public class QuotesController : ApiController
     {
         private readonly TaskContext db = new TaskContext();
+        CustomExceptionService service;
+
+        public QuotesController()
+        {
+            service = new CustomExceptionService();
+        }
 
         // GET api/quotes
         public IQueryable<Quote> Get()
@@ -24,12 +32,15 @@ namespace TaskApi.ApiControllers
         }
 
         // GET api/quotes/5
+        [ItemNotFoundExceptionFilter]
         public IHttpActionResult Get(string id)
         {
             Quote quote = db.Quotes.Find(id);
             if (quote == null)
             {
-                return NotFound();
+                // we cannot throw the ItemNotFound exception ourselves so the custom service does it for us instead
+                service.ThrowItemNotFoundException($"There is no quote with the ID {id}");
+                return Ok();
             }
 
             return Ok(quote);
@@ -41,7 +52,8 @@ namespace TaskApi.ApiControllers
         {
             if (db.Quotes.Any(q => q.Id == quote.Id))
             {
-                return BadRequest("A quote with this ID exists");
+                service.ThrowDuplicateItemException($"A quote with ID {quote.Id} exists");
+                return Ok();
             }
 
             if (!ModelState.IsValid)
@@ -50,22 +62,7 @@ namespace TaskApi.ApiControllers
             }
 
             db.Quotes.Add(quote);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (db.Quotes.Find(quote.Id) != null)
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = quote.Id }, quote);
         }
