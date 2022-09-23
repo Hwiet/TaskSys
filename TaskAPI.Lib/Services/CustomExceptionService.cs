@@ -12,12 +12,12 @@ namespace TaskApi.Lib.Services
     {
         public void ThrowItemNotFoundException(string message = null)
         {
-            throw new ItemNotFoundException(message);
+            throw new ItemNotFoundException(message ?? "This item does not exist");
         }
 
         public void ThrowDuplicateItemException(string message = null)
         {
-            throw new DuplicateItemException(message);
+            throw new DuplicateItemException(message ?? "This item already exists in the database");
         }
     }
 }

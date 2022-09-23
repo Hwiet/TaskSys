@@ -12,9 +12,11 @@ namespace TaskApi.ApiControllers
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     using System.Web.Http.Description;
+    using TaskApi.Lib.Exceptions;
     using TaskApi.Lib.Services;
 
     [Authorize]
+    [ItemNotFoundExceptionFilter]
     public class QuotesController : ApiController
     {
         private readonly TaskContext db = new TaskContext();
@@ -32,14 +34,12 @@ namespace TaskApi.ApiControllers
         }
 
         // GET api/quotes/5
-        [ItemNotFoundExceptionFilter]
         public IHttpActionResult Get(string id)
         {
             Quote quote = db.Quotes.Find(id);
             if (quote == null)
             {
-                // we cannot throw the ItemNotFound exception ourselves so the custom service does it for us instead
-                service.ThrowItemNotFoundException($"There is no quote with the ID {id}");
+                service.ThrowItemNotFoundException();
                 return Ok();
             }
 
@@ -52,7 +52,7 @@ namespace TaskApi.ApiControllers
         {
             if (db.Quotes.Any(q => q.Id == quote.Id))
             {
-                service.ThrowDuplicateItemException($"A quote with ID {quote.Id} exists");
+                service.ThrowDuplicateItemException();
                 return Ok();
             }
 
@@ -91,7 +91,8 @@ namespace TaskApi.ApiControllers
             {
                 if (db.Quotes.Find(quote.Id) == null)
                 {
-                    return NotFound();
+                    service.ThrowDuplicateItemException();
+                    return Ok();
                 }
                 else
                 {
@@ -99,7 +100,7 @@ namespace TaskApi.ApiControllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok("Item modified.");
         }
 
         // DELETE api/quotes/5
@@ -108,7 +109,8 @@ namespace TaskApi.ApiControllers
             Quote quote = db.Quotes.Find(id);
             if (quote == null)
             {
-                return NotFound();
+                service.ThrowItemNotFoundException();
+                return Ok();
             }
 
             db.Quotes.Remove(quote);
