@@ -114,7 +114,7 @@
           <Property Name="TaskDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ContactId" Type="Int32" />
           <Property Name="DueDate" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Personnel" Relationship="Self.FK_Quotes_Personnel" FromRole="Quotes" ToRole="Personnel" />
+          <NavigationProperty Name="Contact" Relationship="Self.FK_Quotes_Personnel" FromRole="Quotes" ToRole="Personnel" />
           <NavigationProperty Name="QuoteType" Relationship="Self.FK_Quotes_QuoteTypes" FromRole="Quotes" ToRole="QuoteTypes" />
           <NavigationProperty Name="TaskType" Relationship="Self.FK_Quotes_TaskTypes" FromRole="Quotes" ToRole="TaskTypes" />
         </EntityType>

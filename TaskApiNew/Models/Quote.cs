@@ -21,7 +21,7 @@ namespace TaskApiNew.Models
         public Nullable<int> ContactId { get; set; }
         public Nullable<System.DateTime> DueDate { get; set; }
     
-        public virtual Personnel Personnel { get; set; }
+        public virtual Personnel Contact { get; set; }
         public virtual QuoteType QuoteType { get; set; }
         public virtual TaskType TaskType { get; set; }
     }

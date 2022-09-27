@@ -114,6 +114,7 @@
     <Compile Include="Models\Quote.cs">
       <DependentUpon>TaskDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\QuotePartial.cs" />
     <Compile Include="Models\QuoteType.cs">
       <DependentUpon>TaskDataModel.tt</DependentUpon>
     </Compile>
