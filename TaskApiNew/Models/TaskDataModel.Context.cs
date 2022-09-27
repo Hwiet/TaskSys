@@ -27,7 +27,5 @@ namespace TaskApiNew.Models
     
         public virtual DbSet<Personnel> Personnels { get; set; }
         public virtual DbSet<Quote> Quotes { get; set; }
-        public virtual DbSet<QuoteType> QuoteTypes { get; set; }
-        public virtual DbSet<TaskType> TaskTypes { get; set; }
     }
 }

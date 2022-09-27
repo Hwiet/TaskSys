@@ -62,8 +62,6 @@
   <ItemGroup>
     <Build Include="Tables\Quotes.sql" />
     <Build Include="Tables\Personnel.sql" />
-    <Build Include="Tables\QuoteTypes.sql" />
-    <Build Include="Tables\TaskTypes.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="TaskDB.refactorlog" />

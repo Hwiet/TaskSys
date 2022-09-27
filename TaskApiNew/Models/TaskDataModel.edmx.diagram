@@ -5,13 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="3364884d21a741958bc1c0f4295a596e" Name="Diagram1">
-        <EntityTypeShape EntityType="TaskModel.Personnel" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TaskModel.Quote" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="TaskModel.QuoteType" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="TaskModel.TaskType" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
-        <AssociationConnector Association="TaskModel.FK_Quotes_Personnel" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskModel.FK_Quotes_QuoteTypes" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskModel.FK_Quotes_TaskTypes" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TaskModel.Personnel" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="TaskModel.Quote" Width="1.5" PointX="2.75" PointY="0.75" />
+        <AssociationConnector Association="TaskModel.FK_Quotes_Personnel" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

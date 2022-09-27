@@ -15,14 +15,12 @@ namespace TaskApiNew.Models
     public partial class Quote
     {
         public string Id { get; set; }
-        public int QuoteTypeId { get; set; }
-        public int TaskTypeId { get; set; }
+        public QuoteType QuoteType { get; set; }
+        public TaskType TaskType { get; set; }
         public string TaskDescription { get; set; }
         public Nullable<int> ContactId { get; set; }
         public Nullable<System.DateTime> DueDate { get; set; }
     
-        public virtual Personnel Contact { get; set; }
-        public virtual QuoteType QuoteType { get; set; }
-        public virtual TaskType TaskType { get; set; }
+        public virtual Personnel Personnel { get; set; }
     }
 }
