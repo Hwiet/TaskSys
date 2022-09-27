@@ -8,10 +8,13 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Results;
+using TaskApiNew.Helpers;
 using TaskApiNew.Models;
 
 namespace TaskApiNew.Controllers
 {
+    [Helpers.CheckForNullArguments]
     public class QuotesController : ApiController
     {
         private TaskEntities db = new TaskEntities();
@@ -29,7 +32,7 @@ namespace TaskApiNew.Controllers
             Quote quote = db.Quotes.Find(id);
             if (quote == null)
             {
-                return NotFound();
+                return NoItemFound(id);
             }
 
             return Ok(quote);
@@ -59,7 +62,7 @@ namespace TaskApiNew.Controllers
             {
                 if (!QuoteExists(id))
                 {
-                    return NotFound();
+                    return NoItemFound(quote.Id);
                 }
                 else
                 {
@@ -107,7 +110,7 @@ namespace TaskApiNew.Controllers
             Quote quote = db.Quotes.Find(id);
             if (quote == null)
             {
-                return NotFound();
+                return NoItemFound(id);
             }
 
             db.Quotes.Remove(quote);
@@ -128,6 +131,14 @@ namespace TaskApiNew.Controllers
         private bool QuoteExists(string id)
         {
             return db.Quotes.Count(e => e.Id == id) > 0;
+        }
+
+        private IHttpActionResult NoItemFound(string id)
+        {
+            return new ResponseMessageResult(new HttpResponseMessage(HttpStatusCode.NotFound)
+            {
+                Content = new StringContent(String.Format("A quote with the id {0} cannot be found", id))
+            });
         }
     }
 }

@@ -108,13 +108,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CheckModelforNullAttribute.cs" />
     <Compile Include="Models\Personnel.cs">
       <DependentUpon>TaskDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Quote.cs">
       <DependentUpon>TaskDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\QuotePartial.cs" />
+    <Compile Include="Models\Partials.cs" />
     <Compile Include="Models\QuoteType.cs">
       <DependentUpon>TaskDataModel.tt</DependentUpon>
     </Compile>

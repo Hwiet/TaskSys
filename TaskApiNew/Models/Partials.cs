@@ -17,7 +17,14 @@ namespace TaskApiNew.Models
 
     public class QuoteMetadata
     {
+        [Required]
+        public string Id;
 
+        [Required]
+        public QuoteType QuoteType;
+
+        [Required]
+        public TaskType TaskType;
     }
 
     [MetadataType(typeof(PersonnelMetadata))]
@@ -36,6 +43,6 @@ namespace TaskApiNew.Models
         public string Role;
 
         // [IgnoreDataMember] doesn't work for some reason
-        public ICollection<Quote> Quotes;
+        //public ICollection<Quote> Quotes;
     }
 }
