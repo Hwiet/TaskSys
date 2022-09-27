@@ -73,7 +73,7 @@
           <Property Name="TaskDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ContactId" Type="Int32" />
           <Property Name="DueDate" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Personnel" Relationship="TaskModel.FK_Quotes_Personnel" FromRole="Quote" ToRole="Personnel" />
+          <NavigationProperty Name="Contact" Relationship="TaskModel.FK_Quotes_Personnel" FromRole="Quote" ToRole="Personnel" />
         </EntityType>
         <Association Name="FK_Quotes_Personnel">
           <End Type="TaskModel.Personnel" Role="Personnel" Multiplicity="0..1" />
