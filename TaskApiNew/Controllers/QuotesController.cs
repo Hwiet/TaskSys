@@ -92,7 +92,7 @@ namespace TaskApiNew.Controllers
             {
                 if (QuoteExists(quote.Id))
                 {
-                    return Conflict();
+                    return Exists(quote.Id);
                 }
                 else
                 {
@@ -138,6 +138,14 @@ namespace TaskApiNew.Controllers
             return new ResponseMessageResult(new HttpResponseMessage(HttpStatusCode.NotFound)
             {
                 Content = new StringContent(String.Format("A quote with the id {0} cannot be found", id))
+            });
+        }
+
+        private IHttpActionResult Exists(string id)
+        {
+            return new ResponseMessageResult(new HttpResponseMessage(HttpStatusCode.Conflict)
+            {
+                Content = new StringContent(String.Format("A quote with the id {0} already exists", id))
             });
         }
     }

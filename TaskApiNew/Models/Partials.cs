@@ -18,6 +18,7 @@ namespace TaskApiNew.Models
     public class QuoteMetadata
     {
         [Required]
+        [RegularExpression(@"^\d{5}$", ErrorMessage = "Please enter a 5-digit numeric ID")]
         public string Id;
 
         [Required]
