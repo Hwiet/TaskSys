@@ -13,7 +13,8 @@ namespace TaskApiNew.Models
     
     public enum QuoteType : int
     {
-        DYR = 0,
-        BF = 1
+        None = 0,
+        DYR = 1,
+        BR = 2
     }
 }

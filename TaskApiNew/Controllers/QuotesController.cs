@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation.Results;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -18,6 +19,7 @@ namespace TaskApiNew.Controllers
     public class QuotesController : ApiController
     {
         private TaskEntities db = new TaskEntities();
+        private QuoteValidator _validator = new QuoteValidator();
 
         // GET: api/Quotes
         public IQueryable<Quote> GetQuotes()
@@ -42,9 +44,14 @@ namespace TaskApiNew.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutQuote(string id, Quote quote)
         {
-            if (!ModelState.IsValid)
+            ValidationResult results = _validator.Validate(quote);
+
+            if (!results.IsValid)
             {
-                return BadRequest(ModelState);
+                return new ResponseMessageResult(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    Content = new StringContent(results.ToString("~"))
+                });
             }
 
             if (id != quote.Id)
@@ -77,9 +84,14 @@ namespace TaskApiNew.Controllers
         [ResponseType(typeof(Quote))]
         public IHttpActionResult PostQuote(Quote quote)
         {
-            if (!ModelState.IsValid)
+            ValidationResult results = _validator.Validate(quote);
+
+            if (!results.IsValid)
             {
-                return BadRequest(ModelState);
+                return new ResponseMessageResult(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    Content = new StringContent(results.ToString("~"))
+                });
             }
 
             db.Quotes.Add(quote);

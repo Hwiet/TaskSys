@@ -88,12 +88,14 @@
           </ReferentialConstraint>
         </Association>
         <EnumType Name="QuoteType">
+          <Member Name="None" Value="0" />
           <Member Name="DYR" />
-          <Member Name="BF" />
+          <Member Name="BR" />
         </EnumType>
         <EnumType Name="TaskType">
-          <Member Name="FollowUp" />
+          <Member Name="None" Value="0" />
           <Member Name="New" />
+          <Member Name="FollowUp" />
         </EnumType>
       </Schema>
     </edmx:ConceptualModels>

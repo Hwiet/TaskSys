@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,15 +18,6 @@ namespace TaskApiNew.Models
 
     public class QuoteMetadata
     {
-        [Required]
-        [RegularExpression(@"^\d{5}$", ErrorMessage = "Please enter a 5-digit numeric ID")]
-        public string Id;
-
-        [Required]
-        public QuoteType QuoteType;
-
-        [Required]
-        public TaskType TaskType;
     }
 
     [MetadataType(typeof(PersonnelMetadata))]
@@ -45,5 +37,15 @@ namespace TaskApiNew.Models
 
         // [IgnoreDataMember] doesn't work for some reason
         //public ICollection<Quote> Quotes;
+    }
+
+    public class QuoteValidator : AbstractValidator<Quote>
+    {
+        public QuoteValidator()
+        {
+            RuleFor(x => x.Id).NotEmpty();
+            RuleFor(x => x.QuoteType).NotEqual(QuoteType.None);
+            RuleFor(x => x.TaskType).NotEqual(TaskType.None);
+        }
     }
 }

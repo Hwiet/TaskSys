@@ -13,7 +13,8 @@ namespace TaskApiNew.Models
     
     public enum TaskType : int
     {
-        FollowUp = 0,
-        New = 1
+        None = 0,
+        New = 1,
+        FollowUp = 2
     }
 }
