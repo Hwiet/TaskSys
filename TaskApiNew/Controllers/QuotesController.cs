@@ -18,8 +18,13 @@ namespace TaskApiNew.Controllers
     [Helpers.CheckForNullArguments]
     public class QuotesController : ApiController
     {
-        private TaskEntities db = new TaskEntities();
-        private QuoteValidator _validator = new QuoteValidator();
+        private readonly TaskEntities db = new TaskEntities();
+        private readonly QuoteValidator _validator;
+
+        public QuotesController()
+        {
+            _validator = new QuoteValidator(db);
+        }
 
         // GET: api/Quotes
         public IQueryable<Quote> GetQuotes()
@@ -50,7 +55,7 @@ namespace TaskApiNew.Controllers
             {
                 return new ResponseMessageResult(new HttpResponseMessage(HttpStatusCode.BadRequest)
                 {
-                    Content = new StringContent(results.ToString("~"))
+                    Content = new StringContent(results.ToString(@"\n"))
                 });
             }
 
@@ -95,22 +100,7 @@ namespace TaskApiNew.Controllers
             }
 
             db.Quotes.Add(quote);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (QuoteExists(quote.Id))
-                {
-                    return Exists(quote.Id);
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = quote.Id }, quote);
         }

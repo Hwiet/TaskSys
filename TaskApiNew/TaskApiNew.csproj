@@ -118,7 +118,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CheckModelforNullAttribute.cs" />
-    <Compile Include="Helpers\ValidateModelAttribute.cs" />
+    <Compile Include="Models\Validators.cs" />
     <Compile Include="Models\Personnel.cs">
       <DependentUpon>TaskDataModel.tt</DependentUpon>
     </Compile>

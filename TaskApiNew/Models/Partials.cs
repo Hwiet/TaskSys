@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
@@ -37,15 +38,5 @@ namespace TaskApiNew.Models
 
         // [IgnoreDataMember] doesn't work for some reason
         //public ICollection<Quote> Quotes;
-    }
-
-    public class QuoteValidator : AbstractValidator<Quote>
-    {
-        public QuoteValidator()
-        {
-            RuleFor(x => x.Id).NotEmpty();
-            RuleFor(x => x.QuoteType).NotEqual(QuoteType.None);
-            RuleFor(x => x.TaskType).NotEqual(TaskType.None);
-        }
     }
 }

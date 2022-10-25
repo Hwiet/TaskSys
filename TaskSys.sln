@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskAPI.Lib", "TaskAPI.Lib\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskApiNew", "TaskApiNew\TaskApiNew.csproj", "{5B65CB8F-9079-4965-979D-B4D74FD7252F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginService", "LoginService\LoginService.csproj", "{486A0917-032B-4F2A-8852-EA5184D78AFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{5B65CB8F-9079-4965-979D-B4D74FD7252F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B65CB8F-9079-4965-979D-B4D74FD7252F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B65CB8F-9079-4965-979D-B4D74FD7252F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{486A0917-032B-4F2A-8852-EA5184D78AFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{486A0917-032B-4F2A-8852-EA5184D78AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{486A0917-032B-4F2A-8852-EA5184D78AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{486A0917-032B-4F2A-8852-EA5184D78AFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
